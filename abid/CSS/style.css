@@ -1,0 +1,71 @@
+/* Basic styling for Activity Feed and Comments */
+.task-details-panel, .activity-page {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+}
+
+.comment-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    transition: opacity 0.5s ease;
+}
+
+.comment-header {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.comment-body {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.delete-btn {
+    color: #e74c3c;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    text-decoration: underline;
+}
+
+.activity-item {
+    list-style-type: none;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.activity-item .time {
+    color: #888;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
