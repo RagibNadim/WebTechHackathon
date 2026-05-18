@@ -56,7 +56,8 @@ class DatabaseConnection{
 
     function getProjectsByWorkspace($connection, $workspace_id){
         $sql = "SELECT * FROM projects
-                WHERE workspace_id = ? AND is_archived = 0";
+                WHERE workspace_id = ? AND is_archived = 0
+                ORDER BY created_at DESC";
 
         $statement = $connection->prepare($sql);
         $statement->bind_param("i", $workspace_id);
@@ -67,7 +68,8 @@ class DatabaseConnection{
 
     function getArchivedProjects($connection, $workspace_id){
         $sql = "SELECT * FROM projects
-                WHERE workspace_id = ? AND is_archived = 1";
+                WHERE workspace_id = ? AND is_archived = 1
+                ORDER BY created_at DESC";
 
         $statement = $connection->prepare($sql);
         $statement->bind_param("i", $workspace_id);
@@ -76,11 +78,12 @@ class DatabaseConnection{
         return $statement->get_result();
     }
 
-    function getProjectById($connection, $project_id){
-        $sql = "SELECT * FROM projects WHERE id = ?";
+    function getProjectById($connection, $project_id, $workspace_id){
+        $sql = "SELECT * FROM projects
+                WHERE id = ? AND workspace_id = ?";
 
         $statement = $connection->prepare($sql);
-        $statement->bind_param("i", $project_id);
+        $statement->bind_param("ii", $project_id, $workspace_id);
         $statement->execute();
 
         return $statement->get_result();
@@ -129,16 +132,59 @@ class DatabaseConnection{
         return $statement->get_result();
     }
 
-    function getProjectMemberIds($connection, $project_id){
-    $sql = "SELECT user_id FROM project_members WHERE project_id = ?";
+    function getProjectMembers($connection, $project_id){
+        $sql = "SELECT users.id, users.name, users.email
+                FROM project_members
+                INNER JOIN users ON project_members.user_id = users.id
+                WHERE project_members.project_id = ?";
 
-    $statement = $connection->prepare($sql);
-    $statement->bind_param("i", $project_id);
-    $statement->execute();
+        $statement = $connection->prepare($sql);
+        $statement->bind_param("i", $project_id);
+        $statement->execute();
 
-    return $statement->get_result();
+        return $statement->get_result();
     }
 
+    function getProjectMemberIds($connection, $project_id){
+        $sql = "SELECT user_id FROM project_members WHERE project_id = ?";
+
+        $statement = $connection->prepare($sql);
+        $statement->bind_param("i", $project_id);
+        $statement->execute();
+
+        return $statement->get_result();
+    }
+
+    function getTaskSummaryByProject($connection, $project_id){
+        $sql = "SELECT
+                SUM(CASE WHEN status = 'todo' THEN 1 ELSE 0 END) as todo_count,
+                SUM(CASE WHEN status = 'in-progress' THEN 1 ELSE 0 END) as progress_count,
+                SUM(CASE WHEN status = 'done' THEN 1 ELSE 0 END) as done_count
+                FROM tasks
+                WHERE project_id = ?";
+
+        $statement = $connection->prepare($sql);
+        $statement->bind_param("i", $project_id);
+        $statement->execute();
+
+        return $statement->get_result();
+    }
+
+    function getProjectMembersWithTaskCount($connection, $project_id){
+        $sql = "SELECT users.id, users.name, users.email,
+                COUNT(tasks.id) as assigned_task_count
+                FROM project_members
+                INNER JOIN users ON project_members.user_id = users.id
+                LEFT JOIN tasks ON tasks.assigned_to = users.id AND tasks.project_id = project_members.project_id
+                WHERE project_members.project_id = ?
+                GROUP BY users.id, users.name, users.email";
+
+        $statement = $connection->prepare($sql);
+        $statement->bind_param("i", $project_id);
+        $statement->execute();
+
+        return $statement->get_result();
+    }
 }
 
 ?>
