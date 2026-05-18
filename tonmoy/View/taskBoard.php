@@ -53,10 +53,23 @@ function get_initials($name){
 <body>
 
 <div class="header">
+
     <h2>Task Board</h2>
+
+    <div style="margin-bottom:20px;">
+
+        <a href="../../Noshin/View/dashboard.php">Workspace Dashboard</a>
+        |
+        <a href="../../Nadim/View/projectList.php">Projects</a>
+        |
+        <a href="../../abid/View/activityFeed.php">Activity Feed</a>
+
+    </div>
+
     <div>
         <button id="newTaskBtn">+ New Task</button>
     </div>
+
 </div>
 
 <?php if(!empty($_SESSION['message'])): ?>

@@ -50,6 +50,12 @@ $projects = $db->getProjectsByWorkspace($connection, $workspace_id);
 <a href="archivedProjects.php">Archived Projects</a>
 |
 <a href="../Controller/logout.php">Logout</a>
+|
+<a href="../../Noshin/View/dashboard.php">Workspace Dashboard</a>
+|
+<a href="../../tonmoy/View/taskBoard.php">Task Board</a>
+|
+<a href="../../abid/View/activityFeed.php">Activity Feed</a>
 
 <br><br>
 

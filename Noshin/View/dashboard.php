@@ -119,6 +119,10 @@ if($workspaces->num_rows > 0){
 |
 <a href="../../Nadim/View/projectList.php">Go To Projects</a>
 |
+<a href="../../tonmoy/View/taskBoard.php">Go To Task Board</a>
+|
+<a href="../../abid/View/activityFeed.php">Go To Activity Feed</a>
+|
 <a href="../Controller/logout.php">Logout</a>
 
 </body>
