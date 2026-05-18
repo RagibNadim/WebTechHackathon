@@ -8,6 +8,10 @@ h2{
     color: #333;
 }
 
+h3{
+    color: #444;
+}
+
 table{
     background-color: white;
     padding: 10px;
@@ -23,9 +27,21 @@ input, textarea, select{
     width: 250px;
 }
 
+textarea{
+    height: 80px;
+}
+
 input[type="submit"]{
-    width: 120px;
+    width: 150px;
     background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button{
+    padding: 8px 12px;
+    background-color: #d9534f;
     color: white;
     border: none;
     cursor: pointer;
@@ -33,4 +49,64 @@ input[type="submit"]{
 
 a{
     text-decoration: none;
+    color: blue;
+}
+
+p{
+    font-size: 14px;
+}
+
+.project-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.project-card{
+    background-color: white;
+    padding: 15px;
+    box-shadow: 0px 0px 5px #ccc;
+}
+
+.overdue{
+    color: red;
+    font-weight: bold;
+}
+
+.member-initials span{
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right: 5px;
+}
+
+.progress-bar{
+    width: 100%;
+    height: 15px;
+    background-color: #ddd;
+}
+
+.progress-fill{
+    height: 15px;
+    background-color: #4CAF50;
+}
+
+.badge{
+    padding: 8px 12px;
+    color: white;
+    margin-right: 10px;
+}
+
+.todo{
+    background-color: #777;
+}
+
+.progress{
+    background-color: #f39c12;
+}
+
+.done{
+    background-color: #2ecc71;
 }
