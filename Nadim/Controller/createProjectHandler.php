@@ -4,13 +4,20 @@ session_start();
 
 include "../Model/DatabaseConnection.php";
 
-$workspace_id = $_SESSION["workspace_id"] ?? 1;
+$workspace_id = $_SESSION["workspace_id"] ?? "";
+
+if(!$workspace_id){
+    Header("Location: ../../Noshin/View/login.php");
+    exit();
+}
 
 $name = trim($_POST["name"] ?? "");
 $description = trim($_POST["description"] ?? "");
 $deadline = $_POST["deadline"] ?? "";
 $color_label = $_POST["color_label"] ?? "";
 $members = $_POST["members"] ?? [];
+
+$allowedColors = ["#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6"];
 
 $hasError = false;
 
@@ -35,8 +42,8 @@ if($deadline == ""){
     unset($_SESSION["deadlineErr"]);
 }
 
-if($color_label == ""){
-    $_SESSION["colorErr"] = "Color is required";
+if(!in_array($color_label, $allowedColors)){
+    $_SESSION["colorErr"] = "Select a valid color";
     $hasError = true;
 }else{
     unset($_SESSION["colorErr"]);
@@ -55,7 +62,7 @@ $_SESSION["project_deadline"] = $deadline;
 $_SESSION["project_color"] = $color_label;
 
 if($hasError){
-    header("Location: ../View/createProject.php");
+    Header("Location: ../View/createProject.php");
     exit();
 }
 
@@ -75,12 +82,12 @@ if($project_id){
     unset($_SESSION["project_deadline"]);
     unset($_SESSION["project_color"]);
 
-    header("Location: ../View/projectList.php");
+    Header("Location: ../View/projectList.php");
     exit();
 
 }else{
     $_SESSION["nameErr"] = "Project creation failed";
-    header("Location: ../View/createProject.php");
+    Header("Location: ../View/createProject.php");
     exit();
 }
 

@@ -4,7 +4,12 @@ session_start();
 
 include "../Model/DatabaseConnection.php";
 
-$workspace_id = $_SESSION["workspace_id"] ?? 1;
+$workspace_id = $_SESSION["workspace_id"] ?? "";
+
+if(!$workspace_id){
+    Header("Location: ../../Noshin/View/login.php");
+    exit();
+}
 
 $nameErr = $_SESSION["nameErr"] ?? "";
 $descriptionErr = $_SESSION["descriptionErr"] ?? "";
@@ -72,12 +77,11 @@ $members = $db->getWorkspaceMembers($connection, $workspace_id);
 <tr>
     <td>Color Label</td>
     <td>
-        <select name="color_label">
-            <option value="">Select Color</option>
-            <option value="red" <?php if($color_label == "red"){ echo "selected"; } ?>>Red</option>
-            <option value="blue" <?php if($color_label == "blue"){ echo "selected"; } ?>>Blue</option>
-            <option value="green" <?php if($color_label == "green"){ echo "selected"; } ?>>Green</option>
-        </select>
+        <label><input type="radio" name="color_label" value="#e74c3c" <?php if($color_label == "#e74c3c"){ echo "checked"; } ?>> Red</label><br>
+        <label><input type="radio" name="color_label" value="#3498db" <?php if($color_label == "#3498db"){ echo "checked"; } ?>> Blue</label><br>
+        <label><input type="radio" name="color_label" value="#2ecc71" <?php if($color_label == "#2ecc71"){ echo "checked"; } ?>> Green</label><br>
+        <label><input type="radio" name="color_label" value="#f39c12" <?php if($color_label == "#f39c12"){ echo "checked"; } ?>> Orange</label><br>
+        <label><input type="radio" name="color_label" value="#9b59b6" <?php if($color_label == "#9b59b6"){ echo "checked"; } ?>> Purple</label>
     </td>
     <td><p style="color:red"><?php echo $colorErr; ?></p></td>
 </tr>
