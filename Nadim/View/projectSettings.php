@@ -5,7 +5,12 @@ session_start();
 include "../Model/DatabaseConnection.php";
 
 $project_id = $_GET["id"] ?? 0;
-$workspace_id = $_SESSION["workspace_id"] ?? 1;
+$workspace_id = $_SESSION["workspace_id"] ?? "";
+
+if(!$workspace_id){
+    Header("Location: ../../Noshin/View/login.php");
+    exit();
+}
 
 if($project_id == 0){
     die("Invalid Project ID");
@@ -14,7 +19,7 @@ if($project_id == 0){
 $db = new DatabaseConnection();
 $connection = $db->openConnection();
 
-$project = $db->getProjectById($connection, $project_id);
+$project = $db->getProjectById($connection, $project_id, $workspace_id);
 $data = $project->fetch_assoc();
 
 if(!$data){
@@ -73,11 +78,11 @@ while($memberRow = $projectMembers->fetch_assoc()){
 <tr>
     <td>Color Label</td>
     <td>
-        <select name="color_label">
-            <option value="red" <?php if($data['color_label'] == "red"){ echo "selected"; } ?>>Red</option>
-            <option value="blue" <?php if($data['color_label'] == "blue"){ echo "selected"; } ?>>Blue</option>
-            <option value="green" <?php if($data['color_label'] == "green"){ echo "selected"; } ?>>Green</option>
-        </select>
+        <label><input type="radio" name="color_label" value="#e74c3c" <?php if($data['color_label'] == "#e74c3c"){ echo "checked"; } ?>> Red</label><br>
+        <label><input type="radio" name="color_label" value="#3498db" <?php if($data['color_label'] == "#3498db"){ echo "checked"; } ?>> Blue</label><br>
+        <label><input type="radio" name="color_label" value="#2ecc71" <?php if($data['color_label'] == "#2ecc71"){ echo "checked"; } ?>> Green</label><br>
+        <label><input type="radio" name="color_label" value="#f39c12" <?php if($data['color_label'] == "#f39c12"){ echo "checked"; } ?>> Orange</label><br>
+        <label><input type="radio" name="color_label" value="#9b59b6" <?php if($data['color_label'] == "#9b59b6"){ echo "checked"; } ?>> Purple</label>
     </td>
 </tr>
 
